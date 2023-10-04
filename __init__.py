@@ -1,0 +1,1 @@
+from .version_2 import sha_256
