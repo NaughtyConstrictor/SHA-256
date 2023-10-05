@@ -2,6 +2,7 @@ import hashlib
 import unittest
 from version_2 import sha_256
 
+
 LENGTH = 32
 EMPTY_MESSAGE = ""
 SHORT_MESSAGE = "Hello, World!"
@@ -16,49 +17,47 @@ UNICODE_MESSAGE = (
     )
     
 class TestFixedLength(unittest.TestCase):
-    
-    def setUp(self):
-        self.test_data = open("LONG_MESSAGE.txt")
-        self.LONG_MESSAGE = self.test_data.read()
 
-    def tearDown(self):
-        self.test_data.close()
+    ERROR_MSG = f"Result length should be {LENGTH}"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.test_data = open("LONG_MESSAGE.txt")
+        cls.LONG_MESSAGE = cls.test_data.read()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.test_data.close()
 
     def test_empty_message(self):
-        self.assertEqual(
-            len(sha_256(EMPTY_MESSAGE)) , LENGTH, f"Result length should be {LENGTH}")
+        self.assertEqual(len(sha_256(EMPTY_MESSAGE)) , LENGTH, self.ERROR_MSG)
     
     def test_short_message(self):
-        self.assertEqual(
-            len(sha_256(SHORT_MESSAGE)) , LENGTH, f"Result length should be {LENGTH}")
+        self.assertEqual(len(sha_256(SHORT_MESSAGE)) , LENGTH, self.ERROR_MSG)
 
     def test_average_message(self):
-        self.assertEqual(
-            len(sha_256(AVERAGE_MESSAGE)) , LENGTH, f"Result length should be {LENGTH}")
+        self.assertEqual(len(sha_256(AVERAGE_MESSAGE)) , LENGTH, self.ERROR_MSG)
 
     def test_bytes_message(self):
-        self.assertEqual(
-            len(sha_256(BYTES_MESSAGE)) , LENGTH, f"Result length should be {LENGTH}")
+        self.assertEqual(len(sha_256(BYTES_MESSAGE)) , LENGTH, self.ERROR_MSG)
     
     def test_unicode_message(self):
-        self.assertEqual(
-            len(sha_256(UNICODE_MESSAGE)) , LENGTH, f"Result length should be {LENGTH}")
+        self.assertEqual(len(sha_256(UNICODE_MESSAGE)) , LENGTH, self.ERROR_MSG)
 
     def test_long_message(self):
-        self.assertEqual(
-            len(sha_256(self.LONG_MESSAGE)) , LENGTH, 
-            f"Result length should be {LENGTH}"
-            )
+        self.assertEqual(len(sha_256(self.LONG_MESSAGE)) , LENGTH, self.ERROR_MSG)
 
 
 class TestSHA256(unittest.TestCase):
+
+    @classmethod    
+    def setUpClass(cls):
+        cls.test_data = open("LONG_MESSAGE.txt")
+        cls.LONG_MESSAGE = cls.test_data.read()
     
-    def setUp(self):
-        self.test_data = open("LONG_MESSAGE.txt")
-        self.LONG_MESSAGE = self.test_data.read()
-    
-    def tearDown(self):
-        self.test_data.close()
+    @classmethod
+    def tearDownClass(cls):
+        cls.test_data.close()
 
     def test_empty_message(self):
         self.assertEqual(
